@@ -38,6 +38,7 @@ setup(
         'plone.api',
         'plone.app.registry',
         'setuptools',
+        'five.grok'
     ],
     extras_require={
         # list libs needed for unittesting this project
