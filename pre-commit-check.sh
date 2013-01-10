@@ -9,7 +9,7 @@ function handle_exit {
 EXITCODE=0
 
 echo '====== Running tests ========='
-bin/test -s niteoweb.aweber; handle_exit
+bin/test --color -s niteoweb.aweber; handle_exit
 
 echo '====== Running ZPTLint ======'
 for pt in `find src/niteoweb/aweber/ -name "*.pt"` ; do bin/zptlint $pt; done
