@@ -2,6 +2,7 @@
 <metadata>
   <version>1</version>
   <dependencies>
-    <dependency>profile-niteoweb.aweber:default</dependency>
+      <dependency>profile-niteoweb.aweber:default</dependency>
+      <dependency>profile-plone.app.registry:default</dependency>
   </dependencies>
 </metadata>
