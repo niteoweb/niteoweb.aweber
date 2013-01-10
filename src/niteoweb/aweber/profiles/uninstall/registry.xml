@@ -2,4 +2,5 @@
 <registry>
     <records interface="niteoweb.aweber.interfaces.IAweberSettings"
         remove="true" />
+    <record name="niteoweb.aweber.available_lists_record" remove="true" />
 </registry>
