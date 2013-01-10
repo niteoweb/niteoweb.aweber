@@ -35,23 +35,24 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
+        'aweber_api',
+        'five.grok',
         'plone.api',
         'plone.app.registry',
         'setuptools',
-        'five.grok'
     ],
     extras_require={
         # list libs needed for unittesting this project
         'test': [
+            'Products.PloneTestCase',
             'mock',
             'plone.app.testing',
-            'Products.PloneTestCase',
             'unittest2',
         ],
         # list libs needed for releasing this project
         'release': [
-            'zest.releaser',   # bin/longtest
             'jarn.mkrelease',  # bin/mkrelease
+            'zest.releaser',   # bin/longtest
         ],
     },
     entry_points="""
