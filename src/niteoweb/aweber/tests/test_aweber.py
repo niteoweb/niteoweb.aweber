@@ -5,10 +5,14 @@ Test Aweber methods
 """
 
 from Products.PloneTestCase import PloneTestCase as PTC
+from mock import Mock
 from mock import patch
+from niteoweb.aweber.browser import controlpanel
 from niteoweb.aweber.interfaces import IAweberSettings
 from niteoweb.aweber.tests.base import FunctionalTestCase
+from niteoweb.aweber.tests.base import IntegrationTestCase
 from niteoweb.aweber.tests.base import MockedLoggingHandler as logger
+from plone import api
 from plone.registry.interfaces import IRegistry
 from plone.testing.z2 import Browser
 from zope.component import getUtility
@@ -16,8 +20,8 @@ from zope.component import getUtility
 import transaction
 
 
-class TestAweber(FunctionalTestCase):
-    """Test Aweber."""
+class FunctionalTestAweber(FunctionalTestCase):
+    """Functional test of Aweber."""
 
     def setUp(self):
         """Prepare testing environment."""
@@ -125,3 +129,79 @@ class TestAweber(FunctionalTestCase):
         self.browser.open(self.portal.absolute_url() + "/@@aweber-settings")
         self.browser.getControl(name="form.buttons.update_lists").click()
         assert set_list_names.called
+
+    @patch("niteoweb.aweber.aweberapi.subscribe_to_aweber_mailinglist")
+    def test_subscribe_user(self, subscribe):
+        """Test subscribe user button.
+        """
+        self.browser.open(self.portal.absolute_url() + "/@@aweber-settings")
+        self.browser.getControl(name="form.buttons.subscribe_user").click()
+        assert subscribe.called
+
+
+class IntegrationTestAweber(IntegrationTestCase):
+    """Integration test of Aweber."""
+
+    @patch("niteoweb.aweber.browser.controlpanel.AWeberAPI")
+    def test_set_list_names(self, mocked_AWeberAPI):
+        """Test set list names method.
+        """
+        list_names = []
+        for i in range(30):
+            obj = Mock()
+            obj.name = u"listname{0}".format(i)
+            list_names.append(obj)
+
+        mocked_AWeberAPI.return_value.get_account.return_value.lists = \
+            list_names
+
+        widgets = {
+            'consumer_key': Mock(value="consumerkey"),
+            'consumer_secret': Mock(value="consumersecret"),
+            'access_token': Mock(value="accesstoken"),
+            'access_secret': Mock(value="accesssecret")
+        }
+
+        controlpanel.set_list_names(widgets)
+
+        available_lists = api.portal.get_registry_record(
+            'niteoweb.aweber.available_lists_record',
+        )
+
+        assert mocked_AWeberAPI.called
+        assert mocked_AWeberAPI.return_value.get_account.called
+        assert available_lists == [n.name for n in list_names]
+
+    @patch(
+        "niteoweb.aweber.browser.controlpanel."
+        "AWeberAPI.parse_authorization_code"
+    )
+    def test_parse_auth_code(self, mocked_parse):
+        """Test parse authorization code method.
+        """
+        mocked_parse.return_value = \
+            ("new_consumerkey", "new_consumersecret",
+             "new_accesstoken", "new_accesssecret")
+
+        widgets = {
+            'consumer_key': Mock(value="old_consumerkey"),
+            'consumer_secret': Mock(value="old_consumersecret"),
+            'access_token': Mock(value="old_accesstoken"),
+            'access_secret': Mock(value="old_accesssecret"),
+            'authorization_code': Mock(value="old_authorizationcode")
+        }
+
+        controlpanel.parse_auth_code(widgets)
+
+        self.assertEqual(
+            widgets['consumer_key'].value, "new_consumerkey"
+        )
+        self.assertEqual(
+            widgets['consumer_secret'].value, "new_consumersecret"
+        )
+        self.assertEqual(
+            widgets['access_token'].value, "new_accesstoken"
+        )
+        self.assertEqual(
+            widgets['access_secret'].value, "new_accesssecret"
+        )
