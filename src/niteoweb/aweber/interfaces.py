@@ -10,15 +10,18 @@ class ListsVocabulary(object):
     grok.implements(IVocabularyFactory)
 
     def __call__(self, context):
+        result = None
         try:
             lists_record = api.portal.get_registry_record(
                 'niteoweb.aweber.available_lists_record'
             )
             if lists_record:
-                return SimpleVocabulary.fromValues(lists_record)
+                result = SimpleVocabulary.fromValues(lists_record)
+            else:
+                result = SimpleVocabulary.fromValues([])
         except KeyError:
-            pass
-        return SimpleVocabulary.fromValues([])
+            result = SimpleVocabulary.fromValues([])
+        return result
 
 grok.global_utility(
     ListsVocabulary,
@@ -57,5 +60,15 @@ class IAweberSettings(Interface):
     list_name = schema.Choice(
         title=u"List Name",
         vocabulary="niteoweb.aweber.available_lists_vocabulary",
+        required=False,
+    )
+
+    subscribe_fullname = schema.TextLine(
+        title=u"Subscriber's full name",
+        required=False,
+    )
+
+    subscribe_email = schema.TextLine(
+        title=u"Subscriber's email",
         required=False,
     )
