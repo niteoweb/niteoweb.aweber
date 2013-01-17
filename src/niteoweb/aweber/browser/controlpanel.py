@@ -33,16 +33,36 @@ def set_list_names(widgets):
 def parse_auth_code(widgets):
     """Parse authorization code.
     """
+    authorization_code = widgets['authorization_code'].value
+
     auth = AWeberAPI.parse_authorization_code(
-        widgets['authorization_code'].value
+        authorization_code
     )
 
-    c_key, c_secret, a_key, a_secret = auth
+    c_key, c_secret, a_token, a_secret = auth
 
-    widgets['consumer_key'].value = c_key
-    widgets['consumer_secret'].value = c_secret
-    widgets['access_token'].value = a_key
-    widgets['access_secret'].value = a_secret
+    api.portal.set_registry_record(
+        'niteoweb.aweber.interfaces.IAweberSettings.consumer_key',
+        c_key
+    )
+    api.portal.set_registry_record(
+        'niteoweb.aweber.interfaces.IAweberSettings.consumer_secret',
+        c_secret
+    )
+    api.portal.set_registry_record(
+        'niteoweb.aweber.interfaces.IAweberSettings.access_token',
+        unicode(a_token)
+    )
+    api.portal.set_registry_record(
+        'niteoweb.aweber.interfaces.IAweberSettings.access_secret',
+        unicode(a_secret)
+    )
+
+    # once parsed there is no need for authorization code any more
+    api.portal.set_registry_record(
+        'niteoweb.aweber.interfaces.IAweberSettings.authorization_code',
+        u""
+    )
 
 
 class AweberSettingsEditForm(controlpanel.RegistryEditForm):

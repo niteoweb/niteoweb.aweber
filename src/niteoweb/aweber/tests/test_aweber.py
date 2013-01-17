@@ -180,7 +180,7 @@ class IntegrationTestAweber(IntegrationTestCase):
         """Test parse authorization code method.
         """
         mocked_parse.return_value = \
-            ("new_consumerkey", "new_consumersecret",
+            (u"new_consumerkey", u"new_consumersecret",
              "new_accesstoken", "new_accesssecret")
 
         widgets = {
@@ -191,17 +191,25 @@ class IntegrationTestAweber(IntegrationTestCase):
             'authorization_code': Mock(value="old_authorizationcode")
         }
 
+        self.registry = getUtility(IRegistry)
+        self.settings = self.registry.forInterface(IAweberSettings)
+        self.settings.authorization_code = u'authorizationcode'
+
         controlpanel.parse_auth_code(widgets)
 
         self.assertEqual(
-            widgets['consumer_key'].value, "new_consumerkey"
+            self.settings.consumer_key,
+            u"new_consumerkey"
         )
         self.assertEqual(
-            widgets['consumer_secret'].value, "new_consumersecret"
+            self.settings.consumer_secret,
+            u"new_consumersecret"
         )
         self.assertEqual(
-            widgets['access_token'].value, "new_accesstoken"
+            self.settings.access_token,
+            u"new_accesstoken"
         )
         self.assertEqual(
-            widgets['access_secret'].value, "new_accesssecret"
+            self.settings.access_secret,
+            u"new_accesssecret"
         )
