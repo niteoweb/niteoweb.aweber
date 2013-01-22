@@ -56,6 +56,20 @@ Plone
 Usage
 =====
 
+Subscribe new user from code
+----------------------------
+
+After successful configuration in `Plone` control panel for `AWeber`
+you can call next code for adding new users.
+
+.. sourcecode:: python
+
+    >>> from niteoweb.aweber.aweberapi import subscribe_to_aweber_mailinglist
+    >>> email = "some.one@xyz.xyz"
+    >>> fullname = "Some One"
+    >>> subscribe_to_aweber_mailinglist(email, fullname)
+
+
 Manually subscribe new user
 ---------------------------
 
@@ -77,4 +91,3 @@ also update mailing lists only, without parsing of authorization code.
 
 #. Go to ``Site Setup`` -> ``Configure Aweber`` control panel form.
 #. Click ``Update lists only``.
-
