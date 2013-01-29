@@ -36,11 +36,6 @@ class TestInstall(IntegrationTestCase):
             'Add portal member' in [r['name'] for r in
             self.portal.permissionsOfRole('Anonymous') if r['selected']])
 
-    def test_use_email_as_login(self):
-        """Test if email is indeed used as username."""
-        site_properties = self.portal.portal_properties.site_properties
-        self.assertTrue(site_properties.getProperty('use_email_as_login'))
-
     def test_aweber_controlpanel_available(self):
         """Test if aweber control panel configlet is available."""
         view = getMultiAdapter((self.portal, self.portal.REQUEST),
