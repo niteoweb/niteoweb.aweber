@@ -1,9 +1,8 @@
 Changelog
 =========
 
-0.1 (2013-01-17)
+0.1 (Unreleased)
 ----------------
 
 - Initial release.
   [matejc]
-
