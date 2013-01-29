@@ -6,7 +6,6 @@ A Plone add-on that integrates `AWeber <http://www.aweber.com>`_ email
 autoresponder system with `Plone <http://plone.org>`_.
 
 * `Source code @ GitHub <https://github.com/niteoweb/niteoweb.aweber>`_
-* `Documentation @ ReadTheDocs <http://readthedocs.org/docs/niteowebaweber>`_
 * `Continuous Integration @ Travis-CI <http://travis-ci.org/niteoweb/niteoweb.aweber>`_
 
 
