@@ -12,6 +12,26 @@ autoresponder system with `Plone <http://plone.org>`_.
 Installation
 ============
 
+Within virtualenv from PyPI
+---------------------------
+
+.. sourcecode:: bash
+
+    $ virtualenv --no-site-packages myproject
+    $ cd myproject
+    $ bin/pip install niteoweb.aweber
+
+
+With buildout form PyPI
+-----------------------
+
+Add `niteoweb.aweber` to `buildout.cfg`
+under `eggs` section and then run `bin/buildout`.
+
+
+Installation with mr.developer
+------------------------------
+
 Modify buildout.cfg to install this package with mr.developer::
 
     [buildout]
