@@ -25,14 +25,14 @@ Within virtualenv from PyPI
 With buildout form PyPI
 -----------------------
 
-Add `niteoweb.aweber` to `buildout.cfg`
-under `eggs` section and then run `bin/buildout`.
+Add ``niteoweb.aweber`` to ``buildout.cfg``
+under ``eggs`` section and then run ``bin/buildout``.
 
 
 Installation with mr.developer
 ------------------------------
 
-Modify buildout.cfg to install this package with mr.developer::
+Modify ``buildout.cfg`` to install this package with ``mr.developer``::
 
     [buildout]
     extensions = mr.developer
