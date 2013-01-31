@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Installer for this package."""
+"""Installer for the niteoweb.aweber package."""
 
 from setuptools import find_packages
 from setuptools import setup
@@ -12,7 +12,7 @@ def read(*rnames):
 
 long_description = \
     read('README.rst') + \
-    read('docs', 'HISTORY.rst') + \
+    read('docs', 'CHANGELOG.rst') + \
     read('docs', 'LICENSE.rst')
 
 setup(
@@ -20,6 +20,7 @@ setup(
     version='0.1',
     description="Aweber API integration for Plone.",
     long_description=long_description,
+    # Get more from http://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
         "Framework :: Plone",
         "Programming Language :: Python",
@@ -27,7 +28,7 @@ setup(
     keywords='Plone Python aweber',
     author='NiteoWeb Ltd.',
     author_email='info@niteoweb.com',
-    url='http://www.niteoweb.com',
+    url='http://pypi.python.org/pypi/niteoweb.aweber',
     license='BSD',
     packages=find_packages('src', exclude=['ez_setup']),
     namespace_packages=['niteoweb'],
@@ -37,27 +38,35 @@ setup(
     install_requires=[
         'aweber_api',
         'five.grok',
+        'five.pt',
+        'Pillow',
+        'Plone',
         'plone.api',
-        'plone.app.registry',
         'setuptools',
+        'z3c.jbot',
     ],
     extras_require={
-        # list libs needed for unittesting this project
         'test': [
-            'Products.PloneTestCase',
             'mock',
             'plone.app.testing',
             'unittest2',
         ],
-        # list libs needed for releasing this project
-        'release': [
-            'jarn.mkrelease',  # bin/mkrelease
-            'zest.releaser',   # bin/longtest
+        'develop': [
+            'flake8',
+            'jarn.mkrelease',
+            'niteoweb.loginas',
+            'plone.app.debugtoolbar',
+            'plone.reload',
+            'Products.Clouseau',
+            'Products.DocFinderTab',
+            'Products.PDBDebugMode',
+            'Products.PrintingMailHost',
+            'zest.releaser',
+            'zptlint',
         ],
     },
     entry_points="""
     [z3c.autoinclude.plugin]
-
     target = plone
     """,
 )
