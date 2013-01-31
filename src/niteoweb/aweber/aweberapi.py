@@ -1,4 +1,6 @@
+#!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 """Integration with Aweber API."""
 
 from aweber_api import AWeberAPI

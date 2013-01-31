@@ -1,3 +1,7 @@
+#!/usr/bin/python
+
+"""Settings interface for niteoweb.aweber."""
+
 from five import grok
 from zope import schema
 from zope.interface import Interface
@@ -7,6 +11,8 @@ from plone import api
 
 
 class ListsVocabulary(object):
+    """Vocabulary class for dynamic choice available list names field."""
+
     grok.implements(IVocabularyFactory)
 
     def __call__(self, context):
@@ -30,6 +36,7 @@ grok.global_utility(
 
 
 class IAweberSettings(Interface):
+    """Settings interface for niteoweb.aweber"""
 
     app_id = schema.TextLine(
         title=u"App ID",
