@@ -63,21 +63,27 @@ class TestInstall(IntegrationTestCase):
         self.assertEquals(record.value, u'testvalue')
 
     def test_record_app_id(self):
+        """Test app id registry record."""
         self.assert_record('app_id')
 
     def test_record_authorization_code(self):
+        """Test authorization code registry record."""
         self.assert_record('authorization_code')
 
     def test_record_consumer_key(self):
+        """Test consumer key registry record."""
         self.assert_record('consumer_key')
 
     def test_record_consumer_secret(self):
+        """Test consumer secret registry record."""
         self.assert_record('consumer_secret')
 
     def test_record_access_token(self):
+        """Test access token registry record."""
         self.assert_record('access_token')
 
     def test_record_access_secret(self):
+        """Test access token registry record."""
         self.assert_record('access_secret')
 
 

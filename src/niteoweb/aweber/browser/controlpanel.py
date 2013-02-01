@@ -5,17 +5,20 @@ Aweber control panel configlet
 ------------------------------
 """
 
-from niteoweb.aweber import AweberMessageFactory as _
-from niteoweb.aweber.interfaces import IAweberSettings
-from plone.app.registry.browser import controlpanel
-from z3c.form import button
-from plone import api
 from aweber_api import AWeberAPI
 from niteoweb.aweber import aweberapi
+from niteoweb.aweber import AweberMessageFactory as _
+from niteoweb.aweber.interfaces import IAweberSettings
+from plone import api
+from plone.app.registry.browser import controlpanel
+from z3c.form import button
 
 
 def set_list_names(widgets):
     """Writes list names to registry record.
+
+    :param widgets: object to read data from it
+    :type widgets: Widgets object
     """
     consumer_key = widgets['consumer_key'].value
     consumer_secret = widgets['consumer_secret'].value
@@ -33,6 +36,9 @@ def set_list_names(widgets):
 
 def parse_auth_code(widgets):
     """Parse authorization code.
+
+    :param widgets: object to read data from it
+    :type widgets: Widgets object
     """
     authorization_code = widgets['authorization_code'].value
 
@@ -83,6 +89,7 @@ class AweberSettingsEditForm(controlpanel.RegistryEditForm):
 
     @button.buttonAndHandler(_('Get auth code'), name='get_auth')
     def handle_get_auth_action(self, action):
+        """Handle get authorization code button action."""
         app_id = self.widgets['app_id'].value
         url = "https://auth.aweber.com/1.0/oauth/authorize_app/{0}".format(
             app_id
@@ -98,17 +105,20 @@ class AweberSettingsEditForm(controlpanel.RegistryEditForm):
         name='parse_auth'
     )
     def handle_parse_auth_action(self, action):
+        """Handle parse authorization code button action."""
         parse_auth_code(self.widgets)
         set_list_names(self.widgets)
         self.reload_settings_page()
 
     @button.buttonAndHandler(_('Update lists only'), name='update_lists')
     def handle_update_lists_action(self, action):
+        """Handle update list names button action."""
         set_list_names(self.widgets)
         self.reload_settings_page()
 
     @button.buttonAndHandler(_('Subscribe new user'), name='subscribe_user')
     def handle_subscribe_user_action(self, action):
+        """Handle subscribe new user button action."""
         try:
             aweberapi.subscribe_to_aweber_mailinglist(
                 self.widgets['subscribe_email'].value,
@@ -125,17 +135,21 @@ class AweberSettingsEditForm(controlpanel.RegistryEditForm):
 
     @button.buttonAndHandler(_('Save'), name=None)
     def handleSave(self, action):
+        """Handle save button action."""
         super(AweberSettingsEditForm, self).handleSave(self, action)
 
     @button.buttonAndHandler(_('Cancel'), name='cancel')
     def handleCancel(self, action):
+        """Handle cancel button action."""
         super(AweberSettingsEditForm, self).handleCancel(self, action)
 
     def reload_settings_page(self):
+        """Reloads AWeber settings page in Plone."""
         self.context.REQUEST.response.redirect(
             api.portal.get().absolute_url() + "/@@aweber-settings"
         )
 
 
 class AweberSettingsControlPanel(controlpanel.ControlPanelFormWrapper):
+    """Control panel form wrapper."""
     form = AweberSettingsEditForm

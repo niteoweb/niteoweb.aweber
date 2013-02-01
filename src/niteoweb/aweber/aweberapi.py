@@ -8,7 +8,13 @@ from plone import api
 
 
 def subscribe_to_aweber_mailinglist(email, fullname):
-    """Subscribe a member to Aweber mailinglist."""
+    """Subscribe a member to Aweber mailinglist.
+
+    :param email: email address of user to subscribe
+    :type email: string
+    :param fullname: full name of the user related to previous argument
+    :type fullname: string
+    """
 
     consumer_key = api.portal.get_registry_record(
         'niteoweb.aweber.interfaces.IAweberSettings.consumer_key'

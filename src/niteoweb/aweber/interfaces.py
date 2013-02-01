@@ -16,6 +16,7 @@ class ListsVocabulary(object):
     grok.implements(IVocabularyFactory)
 
     def __call__(self, context):
+        """Read from available_lists_record."""
         result = None
         try:
             lists_record = api.portal.get_registry_record(
