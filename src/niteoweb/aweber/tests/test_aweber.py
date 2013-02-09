@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
 """Test Aweber methods"""
 
-from Products.PloneTestCase import PloneTestCase as PTC
 from mock import Mock
 from mock import patch
 from niteoweb.aweber.browser import controlpanel
 from niteoweb.aweber.interfaces import IAweberSettings
-from niteoweb.aweber.tests.base import FunctionalTestCase
-from niteoweb.aweber.tests.base import IntegrationTestCase
-from niteoweb.aweber.tests.base import MockedLoggingHandler as logger
+from niteoweb.aweber.testing import FunctionalTestCase
+from niteoweb.aweber.testing import IntegrationTestCase
+from niteoweb.aweber.testing import MockedLoggingHandler as logger
 from plone import api
 from plone.registry.interfaces import IRegistry
 from plone.testing.z2 import Browser
@@ -36,15 +35,6 @@ class FunctionalTestAweber(FunctionalTestCase):
 
         self.browser = Browser(self.portal)
         self.login_as_admin()
-
-    def login_as_admin(self):
-        # login as admin
-        self.browser.open(self.portal.absolute_url() + '/login')
-        self.browser.getLink('Log in').click()
-        self.browser.getControl(name='__ac_name').value = "admin"
-        self.browser.getControl(name='__ac_password').value = \
-            PTC.default_password
-        self.browser.getControl(name='submit').click()
 
     def tearDown(self):
         """Clean up after yourself."""

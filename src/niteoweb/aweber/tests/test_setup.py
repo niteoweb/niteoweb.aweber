@@ -2,13 +2,13 @@
 """Setup/installation tests for niteoweb.aweber."""
 
 from AccessControl import Unauthorized
+from niteoweb.aweber.interfaces import IAweberSettings
+from niteoweb.aweber.testing import IntegrationTestCase
+from plone.app.testing import logout
 from plone.registry.interfaces import IRegistry
-from zope.component import getUtility
-from niteoweb.aweber.tests.base import IntegrationTestCase
 from Products.CMFCore.utils import getToolByName
 from zope.component import getMultiAdapter
-from plone.app.testing import logout
-from niteoweb.aweber.interfaces import IAweberSettings
+from zope.component import getUtility
 
 import unittest2 as unittest
 

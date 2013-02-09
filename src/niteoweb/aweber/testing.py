@@ -15,6 +15,7 @@ from plone.app.testing import PloneSandboxLayer
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
+from plone.app.testing import TEST_USER_PASSWORD
 from plone.testing import z2
 from Products.CMFPlone.tests.utils import MockMailHost
 from Products.MailHost.interfaces import IMailHost
@@ -101,6 +102,15 @@ class FunctionalTestCase(unittest.TestCase):
     """Base class for functional tests."""
 
     layer = FUNCTIONAL_TESTING
+
+    def login_as_admin(self):
+        # login as admin
+        self.browser.open(self.portal.absolute_url() + '/login')
+        self.browser.getLink('Log in').click()
+        self.browser.getControl(name='__ac_name').value = "admin"
+        self.browser.getControl(name='__ac_password').value = \
+            TEST_USER_PASSWORD
+        self.browser.getControl(name='submit').click()
 
 
 class AweberControlPanelTestCase(FunctionalTestCase, ControlPanelTestCase):
