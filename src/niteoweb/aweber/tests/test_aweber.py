@@ -1,9 +1,5 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
-"""
-Test Aweber methods
-------------------------------------------------
-"""
+"""Test Aweber methods"""
 
 from Products.PloneTestCase import PloneTestCase as PTC
 from mock import Mock

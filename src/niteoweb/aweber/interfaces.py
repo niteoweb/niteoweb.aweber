@@ -1,5 +1,4 @@
-#!/usr/bin/python
-
+# -*- coding: utf-8 -*-
 """Settings interface for niteoweb.aweber."""
 
 from five import grok

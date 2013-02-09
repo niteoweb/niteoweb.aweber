@@ -1,9 +1,5 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
-"""
-Aweber control panel configlet
-------------------------------
-"""
+"""Aweber control panel configlet."""
 
 from aweber_api import AWeberAPI
 from niteoweb.aweber import aweberapi

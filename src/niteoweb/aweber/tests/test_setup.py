@@ -1,9 +1,5 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
-"""
-Setup/installation tests for niteoweb.aweber
-------------------------------------------------
-"""
+"""Setup/installation tests for niteoweb.aweber."""
 
 from AccessControl import Unauthorized
 from plone.registry.interfaces import IRegistry

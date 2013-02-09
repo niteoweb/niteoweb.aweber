@@ -1,9 +1,7 @@
-#!/usr/bin/python
 # -*- coding: utf-8 -*-
-"""
-Base module for unittesting
----------------------------
-"""
+"""Base module for unittesting"""
+
+# TODO: move this to testing.py
 
 import unittest2 as unittest
 
