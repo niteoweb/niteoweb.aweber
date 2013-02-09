@@ -3,7 +3,7 @@
 
 from mock import Mock
 from mock import patch
-from niteoweb.aweber.browser import controlpanel
+from niteoweb.aweber import controlpanel
 from niteoweb.aweber.interfaces import IAweberSettings
 from niteoweb.aweber.testing import FunctionalTestCase
 from niteoweb.aweber.testing import IntegrationTestCase
@@ -99,8 +99,8 @@ class FunctionalTestAweber(FunctionalTestCase):
             "to Authorization Code field".format(url)
         self.assertIn(message, self.browser.contents)
 
-    @patch("niteoweb.aweber.browser.controlpanel.parse_auth_code")
-    @patch("niteoweb.aweber.browser.controlpanel.set_list_names")
+    @patch("niteoweb.aweber.controlpanel.parse_auth_code")
+    @patch("niteoweb.aweber.controlpanel.set_list_names")
     def test_parse_auth(self, set_list_names, parse_auth_code):
         """Test get authorization code button."""
         self.browser.open(self.portal.absolute_url() + "/@@aweber-settings")
@@ -108,7 +108,7 @@ class FunctionalTestAweber(FunctionalTestCase):
         assert set_list_names.called
         assert parse_auth_code.called
 
-    @patch("niteoweb.aweber.browser.controlpanel.set_list_names")
+    @patch("niteoweb.aweber.controlpanel.set_list_names")
     def test_update_lists(self, set_list_names):
         """Test update lists button."""
         self.browser.open(self.portal.absolute_url() + "/@@aweber-settings")
@@ -126,7 +126,7 @@ class FunctionalTestAweber(FunctionalTestCase):
 class IntegrationTestAweber(IntegrationTestCase):
     """Integration test of Aweber."""
 
-    @patch("niteoweb.aweber.browser.controlpanel.AWeberAPI")
+    @patch("niteoweb.aweber.controlpanel.AWeberAPI")
     def test_set_list_names(self, mocked_AWeberAPI):
         """Test set list names method."""
         list_names = []
@@ -155,10 +155,7 @@ class IntegrationTestAweber(IntegrationTestCase):
         assert mocked_AWeberAPI.return_value.get_account.called
         assert available_lists == [n.name for n in list_names]
 
-    @patch(
-        "niteoweb.aweber.browser.controlpanel."
-        "AWeberAPI.parse_authorization_code"
-    )
+    @patch("niteoweb.aweber.controlpanel.AWeberAPI.parse_authorization_code")
     def test_parse_auth_code(self, mocked_parse):
         """Test parse authorization code method."""
         mocked_parse.return_value = (
