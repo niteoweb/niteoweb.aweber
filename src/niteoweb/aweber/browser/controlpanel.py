@@ -26,7 +26,7 @@ def set_list_names(widgets):
 
     api.portal.set_registry_record(
         'niteoweb.aweber.available_lists_record',
-        [l.name for l in account.lists]
+        [l.name for l in account.lists],
     )
 
 
@@ -46,25 +46,25 @@ def parse_auth_code(widgets):
 
     api.portal.set_registry_record(
         'niteoweb.aweber.interfaces.IAweberSettings.consumer_key',
-        c_key
+        c_key,
     )
     api.portal.set_registry_record(
         'niteoweb.aweber.interfaces.IAweberSettings.consumer_secret',
-        c_secret
+        c_secret,
     )
     api.portal.set_registry_record(
         'niteoweb.aweber.interfaces.IAweberSettings.access_token',
-        unicode(a_token)
+        unicode(a_token),
     )
     api.portal.set_registry_record(
         'niteoweb.aweber.interfaces.IAweberSettings.access_secret',
-        unicode(a_secret)
+        unicode(a_secret),
     )
 
     # once parsed there is no need for authorization code any more
     api.portal.set_registry_record(
         'niteoweb.aweber.interfaces.IAweberSettings.authorization_code',
-        u""
+        u"",
     )
 
 
@@ -88,12 +88,12 @@ class AweberSettingsEditForm(controlpanel.RegistryEditForm):
         """Handle get authorization code button action."""
         app_id = self.widgets['app_id'].value
         url = "https://auth.aweber.com/1.0/oauth/authorize_app/{0}".format(
-            app_id
+            app_id,
         )
         api.portal.show_message(
             message="Visit '{0}' and copy authorization code "
                     "to Authorization Code field".format(url),
-            request=self.request
+            request=self.request,
         )
 
     @button.buttonAndHandler(
@@ -126,7 +126,7 @@ class AweberSettingsEditForm(controlpanel.RegistryEditForm):
             api.portal.show_message(
                 message=e.message,
                 request=self.request,
-                type='error'
+                type='error',
             )
 
     @button.buttonAndHandler(_('Save'), name=None)
@@ -142,8 +142,7 @@ class AweberSettingsEditForm(controlpanel.RegistryEditForm):
     def reload_settings_page(self):
         """Reloads AWeber settings page in Plone."""
         self.context.REQUEST.response.redirect(
-            api.portal.get().absolute_url() + "/@@aweber-settings"
-        )
+            api.portal.get().absolute_url() + "/@@aweber-settings")
 
 
 class AweberSettingsControlPanel(controlpanel.ControlPanelFormWrapper):

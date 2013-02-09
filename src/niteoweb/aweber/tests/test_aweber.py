@@ -176,16 +176,19 @@ class IntegrationTestAweber(IntegrationTestCase):
     def test_parse_auth_code(self, mocked_parse):
         """Test parse authorization code method.
         """
-        mocked_parse.return_value = \
-            (u"new_consumerkey", u"new_consumersecret",
-             "new_accesstoken", "new_accesssecret")
+        mocked_parse.return_value = (
+            u"new_consumerkey",
+            u"new_consumersecret",
+            "new_accesstoken",
+            "new_accesssecret",
+        )
 
         widgets = {
             'consumer_key': Mock(value="old_consumerkey"),
             'consumer_secret': Mock(value="old_consumersecret"),
             'access_token': Mock(value="old_accesstoken"),
             'access_secret': Mock(value="old_accesssecret"),
-            'authorization_code': Mock(value="old_authorizationcode")
+            'authorization_code': Mock(value="old_authorizationcode"),
         }
 
         self.registry = getUtility(IRegistry)
@@ -196,17 +199,17 @@ class IntegrationTestAweber(IntegrationTestCase):
 
         self.assertEqual(
             self.settings.consumer_key,
-            u"new_consumerkey"
+            u"new_consumerkey",
         )
         self.assertEqual(
             self.settings.consumer_secret,
-            u"new_consumersecret"
+            u"new_consumersecret",
         )
         self.assertEqual(
             self.settings.access_token,
-            u"new_accesstoken"
+            u"new_accesstoken",
         )
         self.assertEqual(
             self.settings.access_secret,
-            u"new_accesssecret"
+            u"new_accesssecret",
         )

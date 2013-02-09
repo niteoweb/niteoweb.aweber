@@ -19,8 +19,7 @@ class ListsVocabulary(object):
         result = None
         try:
             lists_record = api.portal.get_registry_record(
-                'niteoweb.aweber.available_lists_record'
-            )
+                'niteoweb.aweber.available_lists_record')
             if lists_record:
                 result = SimpleVocabulary.fromValues(lists_record)
             else:
@@ -36,7 +35,7 @@ grok.global_utility(
 
 
 class IAweberSettings(Interface):
-    """Settings interface for niteoweb.aweber"""
+    """Settings interface for niteoweb.aweber."""
 
     app_id = schema.TextLine(
         title=u"App ID",
