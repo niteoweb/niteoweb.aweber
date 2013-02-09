@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Base module for unittesting"""
-
-# TODO: move this to testing.py
+"""Base module for unittesting."""
 
 import unittest2 as unittest
 
@@ -20,27 +18,6 @@ from plone.testing import z2
 from Products.CMFPlone.tests.utils import MockMailHost
 from Products.MailHost.interfaces import IMailHost
 from zope.site.hooks import getSite
-
-import logging
-
-
-class MockedLoggingHandler(logging.Handler):
-
-    debug = []
-    warning = []
-    info = []
-    error = []
-
-    def emit(self, record):
-        getattr(self.__class__, record.levelname.lower()).append(
-            record.getMessage()
-        )
-
-    @classmethod
-    def reset(cls):
-        for attr in dir(cls):
-            if isinstance(getattr(cls, attr), list):
-                setattr(cls, attr, [])
 
 
 class NiteowebAweberLayer(PloneSandboxLayer):
@@ -74,11 +51,6 @@ class NiteowebAweberLayer(PloneSandboxLayer):
         portal.portal_catalog.clearFindAndRebuild()
         import transaction
         transaction.commit()
-
-        # add a logging handler that stores everything in a list so we can
-        # later assert on it
-        logger = logging.getLogger('niteoweb.aweber')
-        logger.addHandler(MockedLoggingHandler())
 
     def tearDownZope(self, app):
         """Tear down Zope."""

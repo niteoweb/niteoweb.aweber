@@ -7,11 +7,11 @@ from niteoweb.aweber.browser import controlpanel
 from niteoweb.aweber.interfaces import IAweberSettings
 from niteoweb.aweber.testing import FunctionalTestCase
 from niteoweb.aweber.testing import IntegrationTestCase
-from niteoweb.aweber.testing import MockedLoggingHandler as logger
 from plone import api
 from plone.registry.interfaces import IRegistry
 from plone.testing.z2 import Browser
 from zope.component import getUtility
+from zope.testing.loggingsupport import InstalledHandler
 
 import transaction
 
@@ -36,6 +36,9 @@ class FunctionalTestAweber(FunctionalTestCase):
         self.browser = Browser(self.portal)
         self.login_as_admin()
 
+        # install a testing log handler
+        self.logger = InstalledHandler('niteoweb.aweber')
+
     def tearDown(self):
         """Clean up after yourself."""
 
@@ -43,24 +46,23 @@ class FunctionalTestAweber(FunctionalTestCase):
         self.browser.open(self.portal.absolute_url() + '/logout')
 
         # reset our mocked logger
-        logger.reset()
+        self.logger.uninstall()
+        self.logger.clear()
 
     def test_controlpanel_view(self):
-        """Test for control panel view.
-        """
+        """Test for control panel view."""
         self.browser.open(self.portal.absolute_url() + "/@@aweber-settings")
         self.assertEqual(
             self.browser.url,
-            'http://nohost/plone/@@aweber-settings'
+            'http://nohost/plone/@@aweber-settings',
         )
         self.assertIn(
             '<h1 class="documentFirstHeading">Aweber settings</h1>',
-            self.browser.contents
+            self.browser.contents,
         )
 
     def test_save(self):
-        """Test save button.
-        """
+        """Test save button."""
         self.browser.open(self.portal.absolute_url() + "/@@aweber-settings")
         self.browser.getControl(name='form.widgets.app_id').value = \
             u'temp_app_id'
@@ -73,8 +75,7 @@ class FunctionalTestAweber(FunctionalTestCase):
         )
 
     def test_cancel(self):
-        """Test cancel button.
-        """
+        """Test cancel button."""
         self.browser.open(self.portal.absolute_url() + "/@@aweber-settings")
         self.browser.getControl(name='form.widgets.app_id').value = \
             u'temp_app_id'
@@ -87,8 +88,7 @@ class FunctionalTestAweber(FunctionalTestCase):
         )
 
     def test_get_auth(self):
-        """Test get authorization code button.
-        """
+        """Test get authorization code button."""
         self.browser.open(self.portal.absolute_url() + "/@@aweber-settings")
         self.browser.getControl(name="form.buttons.get_auth").click()
 
@@ -102,8 +102,7 @@ class FunctionalTestAweber(FunctionalTestCase):
     @patch("niteoweb.aweber.browser.controlpanel.parse_auth_code")
     @patch("niteoweb.aweber.browser.controlpanel.set_list_names")
     def test_parse_auth(self, set_list_names, parse_auth_code):
-        """Test get authorization code button.
-        """
+        """Test get authorization code button."""
         self.browser.open(self.portal.absolute_url() + "/@@aweber-settings")
         self.browser.getControl(name="form.buttons.parse_auth").click()
         assert set_list_names.called
@@ -111,16 +110,14 @@ class FunctionalTestAweber(FunctionalTestCase):
 
     @patch("niteoweb.aweber.browser.controlpanel.set_list_names")
     def test_update_lists(self, set_list_names):
-        """Test update lists button.
-        """
+        """Test update lists button."""
         self.browser.open(self.portal.absolute_url() + "/@@aweber-settings")
         self.browser.getControl(name="form.buttons.update_lists").click()
         assert set_list_names.called
 
     @patch("niteoweb.aweber.aweberapi.subscribe_to_aweber_mailinglist")
     def test_subscribe_user(self, subscribe):
-        """Test subscribe user button.
-        """
+        """Test subscribe user button."""
         self.browser.open(self.portal.absolute_url() + "/@@aweber-settings")
         self.browser.getControl(name="form.buttons.subscribe_user").click()
         assert subscribe.called
@@ -131,8 +128,7 @@ class IntegrationTestAweber(IntegrationTestCase):
 
     @patch("niteoweb.aweber.browser.controlpanel.AWeberAPI")
     def test_set_list_names(self, mocked_AWeberAPI):
-        """Test set list names method.
-        """
+        """Test set list names method."""
         list_names = []
         for i in range(30):
             obj = Mock()
@@ -164,8 +160,7 @@ class IntegrationTestAweber(IntegrationTestCase):
         "AWeberAPI.parse_authorization_code"
     )
     def test_parse_auth_code(self, mocked_parse):
-        """Test parse authorization code method.
-        """
+        """Test parse authorization code method."""
         mocked_parse.return_value = (
             u"new_consumerkey",
             u"new_consumersecret",
